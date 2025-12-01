@@ -1,0 +1,95 @@
+# --- .NET / Visual Studio / Rider ---
+
+# Build outputs
+bin/
+obj/
+[Bb]uild/
+[Ll]og/
+[Dd]ebug/
+[Rr]elease/
+
+# Rider / IntelliJ
+.idea/
+*.sln.iml
+
+# Visual Studio
+.vs/
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+
+# VS Code (workspace-specific settings are fine to ignore globally)
+.vscode/
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+# Uncomment if using package restore per-project
+# **/packages/*
+# !**/packages/build/
+
+# Test results / Coverage
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+*.trx
+*.coverage
+*.coveragexml
+coverage/
+
+# Resharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+
+# Cache / Temporary
+*.cache
+*.temp
+*.tmp
+*.bak
+*.swp
+*.orig
+
+# OS files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+
+# DotCover / JetBrains
+.idea/.idea.*
+*.dotCover
+
+# Entity Framework Migrations snapshots (optional)
+# Migrations/*Designer.cs
+
+# User secrets (kept outside repo by default)
+**/secrets.json
+
+# Publish artifacts
+publish/
+artifacts/
+
+# Rider/VS shared solution settings (optional to ignore)
+*.DotSettings.user
+
+# ASP.NET scaffolding (generated)
+ScaffoldingReadMe.txt
+
+# Logs
+*.log
+
+# Local tooling
+.tools/
+.env
+.env.*
+
+# SQLite / Local DBs (if any)
+*.db
+*.sqlite
+*.sqlite3
+
+# Others you might want to keep ignored
+*.opendb
+*.VC.db
+*.VC.VC.opendb
