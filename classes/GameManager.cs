@@ -6,28 +6,13 @@ class GameManager
     private int _timeBetweenTurns;
     private HealthBar _healthBarPlayer1;
     private HealthBar _healthBarPlayer2;
-    private Weapon[] _weapons;
-    private Defense[] _defenses;
     private GameOverManager _gameOverManager;
-    private IAttackStrategy[] _attackStrategies;
-    private IDefenseStrategy[] _defenseStrategies;
-    public GameManager(Player player1, Player player2, IReadOnlyList<Weapon> weapons, IReadOnlyList<Defense> defenses, IReadOnlyList<IAttackStrategy>? attackStrategies = null, IReadOnlyList<IDefenseStrategy>? defenseStrategies = null, float damageRatio = 1f, int timeBetweenTurns = 1000)
+    private readonly ILoadoutFactory _loadoutFactory;
+    public GameManager(Player player1, Player player2, ILoadoutFactory loadoutFactory, float damageRatio = 1f, int timeBetweenTurns = 1000)
     {
         _player1 = player1;
         _player2 = player2;
-
-        _weapons = weapons.ToArray();
-        _defenses = defenses.ToArray();
-        _attackStrategies = (attackStrategies ?? new IAttackStrategy[] { new DefaultAttackStrategy() }).ToArray();
-        if (_attackStrategies.Length == 0)
-        {
-            _attackStrategies = new IAttackStrategy[] { new DefaultAttackStrategy() };
-        }
-        _defenseStrategies = (defenseStrategies ?? new IDefenseStrategy[] { new DefaultDefenseStrategy() }).ToArray();
-        if (_defenseStrategies.Length == 0)
-        {
-            _defenseStrategies = new IDefenseStrategy[] { new DefaultDefenseStrategy() };
-        }
+        _loadoutFactory = loadoutFactory ?? throw new ArgumentNullException(nameof(loadoutFactory));
 
         _damageRatio = damageRatio;
         _timeBetweenTurns = timeBetweenTurns;
@@ -51,16 +36,8 @@ class GameManager
         {
             for (int i = 0; i < counter; i++)
             {
-                _player1.EquipWeapon(_weapons[Random.Shared.Next(_weapons.Length)]);
-                _player2.EquipWeapon(_weapons[Random.Shared.Next(_weapons.Length)]);
-
-                _player1.EquipDefense(_defenses[Random.Shared.Next(_defenses.Length)]);
-                _player2.EquipDefense(_defenses[Random.Shared.Next(_defenses.Length)]);
-
-                _player1.SetAttackStrategy(_attackStrategies[Random.Shared.Next(_attackStrategies.Length)]);
-                _player2.SetAttackStrategy(_attackStrategies[Random.Shared.Next(_attackStrategies.Length)]);
-                _player1.SetDefenseStrategy(_defenseStrategies[Random.Shared.Next(_defenseStrategies.Length)]);
-                _player2.SetDefenseStrategy(_defenseStrategies[Random.Shared.Next(_defenseStrategies.Length)]);
+                ApplyLoadout(_player1);
+                ApplyLoadout(_player2);
 
                 if (i % 2 == 0)
                 {
@@ -101,5 +78,14 @@ class GameManager
                 counter++;
             }
         }
+    }
+
+    private void ApplyLoadout(Player player)
+    {
+        var loadout = _loadoutFactory.CreateLoadout();
+        player.EquipWeapon(loadout.Weapon);
+        player.EquipDefense(loadout.Defense);
+        player.SetAttackStrategy(loadout.AttackStrategy);
+        player.SetDefenseStrategy(loadout.DefenseStrategy);
     }
 }

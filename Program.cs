@@ -4,34 +4,25 @@ static void Main()
     Player player1 = new Player("Hero");
     Player player2 = new Player("Villain");
 
-    Weapon regularKatana = new Katana();
-    Weapon regularNunchaku = new Nunchaku();
-    Weapon regularShuriken = new Shuriken();
-
-    var weapons = new Weapon[]
+    var weaponFactories = new Func<Weapon>[]
     {
-        regularKatana,
-        new SharpnessDecorator(regularKatana),
-        regularShuriken,
-        new SharpnessDecorator(regularShuriken),
-        regularNunchaku,
-        new MomentumDecorator(regularNunchaku),
-        new MomentumDecorator(new SharpnessDecorator(regularKatana)),
-
+        () => new Katana(),
+        () => new SharpnessDecorator(new Katana()),
+        () => new Shuriken(),
+        () => new SharpnessDecorator(new Shuriken()),
+        () => new Nunchaku(),
+        () => new MomentumDecorator(new Nunchaku()),
+        () => new MomentumDecorator(new SharpnessDecorator(new Katana())),
     };
 
-    Defense regularSmokeBomb = new SmokeBomb();
-    Defense regularShield = new Shield();
-    Defense regularRoll = new Roll();
-    
-    var defenses = new Defense[]
+    var defenseFactories = new Func<Defense>[]
     {
-        regularSmokeBomb,
-        regularShield,
-        regularRoll,
-        new QuickReflexeDecorator(regularRoll),
-        new QuickReflexeDecorator(regularSmokeBomb),
-        new DiamondDecorator(regularShield)
+        () => new SmokeBomb(),
+        () => new Shield(),
+        () => new Roll(),
+        () => new QuickReflexeDecorator(new Roll()),
+        () => new QuickReflexeDecorator(new SmokeBomb()),
+        () => new DiamondDecorator(new Shield())
     };
 
     var attackStrategies = new IAttackStrategy[]
@@ -48,7 +39,8 @@ static void Main()
         new FortifiedDefenseStrategy()
     };
 
-    GameManager gameManager = new GameManager(player1, player2, weapons, defenses, attackStrategies, defenseStrategies, damageRatio: 2.0f, timeBetweenTurns: 2000);
+    ILoadoutFactory loadoutFactory = new RandomLoadoutFactory(weaponFactories, defenseFactories, attackStrategies, defenseStrategies);
+    GameManager gameManager = new GameManager(player1, player2, loadoutFactory, damageRatio: 2.0f, timeBetweenTurns: 2000);
     gameManager.StartGame();
 }
 

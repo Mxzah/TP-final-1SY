@@ -1,0 +1,4 @@
+interface ILoadoutFactory
+{
+    PlayerLoadout CreateLoadout();
+}
