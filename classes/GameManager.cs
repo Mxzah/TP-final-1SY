@@ -50,6 +50,7 @@ class GameManager
                     _player2.Attack(_player1);
                 }
 
+                DisplayLeaderboard();
                 Thread.Sleep(_timeBetweenTurns);
 
                 if (GameOverManager.IsGameOver)
@@ -87,5 +88,19 @@ class GameManager
         player.EquipDefense(loadout.Defense);
         player.SetAttackStrategy(loadout.AttackStrategy);
         player.SetDefenseStrategy(loadout.DefenseStrategy);
+    }
+
+    private void DisplayLeaderboard()
+    {
+        Player[] leaderboard = new[] { _player1, _player2 };
+        Array.Sort(leaderboard);
+        Array.Reverse(leaderboard);
+
+        Console.WriteLine("\nLeaderboard (HP high to low):");
+        for (int rank = 0; rank < leaderboard.Length; rank++)
+        {
+            var player = leaderboard[rank];
+            Console.WriteLine($"  #{rank + 1}: {player.Name} - {player.HealthPoints} HP");
+        }
     }
 }

@@ -1,4 +1,4 @@
-class Player : ISubject
+class Player : ISubject, IComparable<Player>
 {
     private string _name = string.Empty;
     public string Name
@@ -110,5 +110,21 @@ class Player : ISubject
         {
             observer.Update(delta, HealthPoints, this);
         }
+    }
+
+    public int CompareTo(Player? other)
+    {
+        if (other == null)
+        {
+            return 1;
+        }
+
+        int healthComparison = HealthPoints.CompareTo(other.HealthPoints);
+        if (healthComparison != 0)
+        {
+            return healthComparison;
+        }
+
+        return string.Compare(Name, other.Name, StringComparison.OrdinalIgnoreCase);
     }
 }
