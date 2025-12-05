@@ -1,0 +1,98 @@
+@startuml
+title Pattern Décorateur – Armes & Défenses
+
+skinparam classAttributeIconSize 0
+
+package "Armes" {
+    abstract class Weapon {
+        +int Attack()
+        +string AttackSound()
+    }
+
+    abstract class WeaponDecorator extends Weapon {
+        -Weapon _weapon
+    }
+
+    WeaponDecorator *-- Weapon : «décore»
+    class Katana extends Weapon
+    class Shuriken extends Weapon
+    class Nunchaku extends Weapon
+
+    class SharpnessDecorator extends WeaponDecorator
+    class MomentumDecorator extends WeaponDecorator
+}
+
+package "Défenses" {
+    abstract class Defense {
+        +int Defend()
+        +string DefendSound()
+    }
+
+    abstract class DefenseDecorator extends Defense {
+        -Defense _defense
+    }
+
+    DefenseDecorator *-- Defense : «décore»
+    class Shield extends Defense
+    class SmokeBomb extends Defense
+    class Roll extends Defense
+
+    class DiamondDecorator extends DefenseDecorator
+    class QuickReflexeDecorator extends DefenseDecorator
+}
+
+@enduml
+
+@startuml
+title Pattern Décorateur – Armes & Défenses
+
+skinparam classAttributeIconSize 0
+
+package "Armes" {
+    abstract class Weapon {
+        +int Attack()
+        +string AttackSound()
+    }
+
+    abstract class WeaponDecorator extends Weapon {
+        -Weapon _weapon
+    }
+
+    WeaponDecorator *-- Weapon : «décore»
+    class Katana extends Weapon
+    class Shuriken extends Weapon
+    class Nunchaku extends Weapon
+
+    class SharpnessDecorator extends WeaponDecorator
+    class MomentumDecorator extends WeaponDecorator
+}
+
+package "Défenses" {
+    abstract class Defense {
+        +int Defend()
+        +string DefendSound()
+    }
+
+    abstract class DefenseDecorator extends Defense {
+        -Defense _defense
+    }
+
+    DefenseDecorator *-- Defense : «décore»
+    class Shield extends Defense
+    class SmokeBomb extends Defense
+    class Roll extends Defense
+
+    class DiamondDecorator extends DefenseDecorator
+    class QuickReflexeDecorator extends DefenseDecorator
+}
+
+note top of WeaponDecorator
+    Propage les appels par défaut
+    vers l'objet décoré.
+end note
+
+note top of DefenseDecorator
+    Ajoute des bonus (valeur ou son)
+    avant/Après délégation.
+end note
+@enduml
