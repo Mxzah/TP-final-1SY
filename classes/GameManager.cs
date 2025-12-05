@@ -93,8 +93,7 @@ class GameManager
     private void DisplayLeaderboard()
     {
         Player[] leaderboard = new[] { _player1, _player2 };
-        Array.Sort(leaderboard);
-        Array.Reverse(leaderboard);
+        Array.Sort(leaderboard, (a, b) => b.CompareTo(a));
 
         Console.WriteLine("\nLeaderboard (HP high to low):");
         for (int rank = 0; rank < leaderboard.Length; rank++)
