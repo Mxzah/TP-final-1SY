@@ -40,7 +40,7 @@ static void Main()
     };
 
     ILoadoutFactory loadoutFactory = new RandomLoadoutFactory(weaponFactories, defenseFactories, attackStrategies, defenseStrategies);
-    GameManager gameManager = new GameManager(player1, player2, loadoutFactory, damageRatio: 2.0f, timeBetweenTurns: 2000);
+    GameManager gameManager = GameManager.Initialize(player1, player2, loadoutFactory, damageRatio: 2.0f, timeBetweenTurns: 2000);
     gameManager.StartGame();
 }
 

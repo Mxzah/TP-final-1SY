@@ -1,5 +1,7 @@
 class GameManager
 {
+    private static GameManager? _instance;
+
     private Player _player1;
     private Player _player2;
     private float _damageRatio;
@@ -8,7 +10,8 @@ class GameManager
     private HealthBar _healthBarPlayer2;
     private GameOverManager _gameOverManager;
     private readonly ILoadoutFactory _loadoutFactory;
-    public GameManager(Player player1, Player player2, ILoadoutFactory loadoutFactory, float damageRatio = 1f, int timeBetweenTurns = 1000)
+
+    private GameManager(Player player1, Player player2, ILoadoutFactory loadoutFactory, float damageRatio = 1f, int timeBetweenTurns = 1000)
     {
         _player1 = player1;
         _player2 = player2;
@@ -25,9 +28,15 @@ class GameManager
         _player1.Attach(_gameOverManager);
         _player2.Attach(_healthBarPlayer2);
         _player2.Attach(_gameOverManager);
-
-
     }
+
+    public static GameManager Initialize(Player player1, Player player2, ILoadoutFactory loadoutFactory, float damageRatio = 1f, int timeBetweenTurns = 1000)
+    {
+        _instance ??= new GameManager(player1, player2, loadoutFactory, damageRatio, timeBetweenTurns);
+        return _instance;
+    }
+
+    public static GameManager Instance => _instance ?? throw new InvalidOperationException("GameManager is not initialized. Call Initialize first.");
 
     public void StartGame()
     {
