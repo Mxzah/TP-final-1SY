@@ -5,13 +5,12 @@ actor Player1 as P1
 participant "SharpnessDecorator\n(WeaponDecorator)" as SD
 participant "WeaponDecorator\n(base)" as WD
 participant "Katana\n(Concrete Weapon)" as Katana
-participant Player2 as P2
+actor Player2 as P2
 participant "QuickReflexeDecorator\n(DefenseDecorator)" as QRD
 participant "DefenseDecorator\n(base)" as DD
 participant "Shield\n(Concrete Defense)" as Shield
 
 == Attaque ==
-P1 -> P1: Attack(target:P2)
 P1 -> SD: Attack()
 SD -> WD: base.Attack()
 WD -> Katana: Attack()
