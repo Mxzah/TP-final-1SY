@@ -5,8 +5,8 @@ class RandomLoadoutFactory : ILoadoutFactory
     private readonly IAttackStrategy[] _attackStrategies;
     private readonly IDefenseStrategy[] _defenseStrategies;
 
-    public RandomLoadoutFactory(IEnumerable<Func<Weapon>> weaponFactories,
-        IEnumerable<Func<Defense>> defenseFactories,
+    public RandomLoadoutFactory(Func<Weapon>[] weaponFactories,
+        Func<Defense>[] defenseFactories,
         IEnumerable<IAttackStrategy> attackStrategies,
         IEnumerable<IDefenseStrategy> defenseStrategies)
     {
